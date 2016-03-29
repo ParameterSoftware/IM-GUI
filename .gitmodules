@@ -1,0 +1,9 @@
+[submodule "libs/glfw"]
+	path = libs/glfw
+	url = https://github.com/glfw/glfw
+[submodule "libs/libsass"]
+	path = libs/libsass
+	url = https://github.com/sass/libsass
+[submodule "libs/libcss"]
+	path = libs/libcss
+	url = git://git.netsurf-browser.org/libcss.git
