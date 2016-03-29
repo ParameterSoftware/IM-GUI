@@ -67,7 +67,7 @@ public:
 	void SwapBuffers();
 	
 	template<class Event>
-	void SetEventFunction(EventIndex::Index index) { m_bus[index] = Event(this); }
+	void SetEventFunction(EventIndex::Index index) { m_bus.RegsterEvent<Event>(this, index); }
 	
 	GLFWwindow* GetPointer();
 	
