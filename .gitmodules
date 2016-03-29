@@ -6,4 +6,4 @@
 	url = https://github.com/sass/libsass
 [submodule "libs/libcss"]
 	path = libs/libcss
-	url = git://git.netsurf-browser.org/libcss.git
+	url = http://git.netsurf-browser.org/libcss.git

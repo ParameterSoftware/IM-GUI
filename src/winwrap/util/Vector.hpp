@@ -1,9 +1,8 @@
-#ifndef IM_GUI_UTIL_VECTOR_HPP
-#define IM_GUI_UTIL_VECTOR_HPP
-
+#pragma once
+#ifndef HID_SvzoydevbHNm9av
+#define HID_SvzoydevbHNm9av
 namespace Imgui
 {
-
 template<int size, typename T>
 class Vector
 {
@@ -38,7 +37,5 @@ typedef Vector<2, double> Vec2D;
 typedef Vector<3, int> Vec3I;
 typedef Vector<3, float> Vec3F;
 typedef Vector<3, double> Vec3D;
-
-}
-
+}// namespace Imgui
 #endif

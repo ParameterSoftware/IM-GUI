@@ -1,9 +1,11 @@
 #include "Window.hpp"
-
-using namespace Imgui::EventFunc;
-
 namespace Imgui
 {
+using namespace Imgui::Win::Event::WindowEvent;
+using namespace Imgui::Win::Event::RetitleEvent;
+using namespace Imgui::Win::Event::Vec2IEvent;
+using namespace Imgui::Win::Event::ModeChangeEvent;
+
 class Window {
 	null = Window(NULL);
 	
@@ -11,13 +13,13 @@ class Window {
 	Window(int width, int height, const char* title, Monitor monitor, Window share): 
 		mp_window(glfwCreateWindow(width, height, title, monitor, share) 
 	{
-		WindowEvent event = m_bus<WindowEvent>[WindowEventIndex::Start];
-		event();
+		WindowEvent event = m_bus<WindowEvent>[Win::EIndex::Start];
+		if(!event()) ~Window();
 	}
 	
 	~Window() 
 	{
-		WindowEvent event = m_bus<WindowEvent>[WindowEventIndex::End];
+		WindowEvent event = m_bus<WindowEvent>[Win::EIndex::End];
 		event();
 		glfwDestroyWindow(this);
 	}
@@ -27,9 +29,9 @@ class Window {
 	
 	void SetTitle(const char* title) 
 	{ 
-		RetitleEvent event = m_bus<RetitleEvent>[WindowEventIndex::Retitle];
+		RetitleEvent event = m_bus<RetitleEvent>[Win::EIndex::Retitle];
 		event.m_title = title;
-		event();
+		if(!event()) return;
 		glfwSetTitle(this, title); 
 	}
 	
@@ -42,9 +44,9 @@ class Window {
 	
 	void SetPosition(Vec2I position) 
 	{ 
-		Vec2IEvent event = m_bus<Vec2IEvent>[WindowEventIndex::Reposition];
+		Vec2IEvent event = m_bus<Vec2IEvent>[Win::EIndex::Reposition];
 		event.m_vec = position;
-		event();
+		if(!event()) return;
 		glfwSetWindowPosition(this, *position.X(), *position.Y());
 	}
 	
@@ -57,9 +59,9 @@ class Window {
 	
 	void SetSize(Vec2I size) 
 	{
-		Vec2IEvent event = m_bus<Vec2IEvent>[WindowEventIndex::Reposition];
+		Vec2IEvent event = m_bus<Vec2IEvent>[Win::EIndex::Reposition];
 		event.m_vec = size;
-		event();
+		if(!event()) return;
 		glfwSetWindowSize(this, *size.X(), *size.Y()); 
 	}
 	
@@ -74,42 +76,42 @@ class Window {
 	
 	void Iconify() 
 	{
-		WindowEvent event = m_bus<WindowEvent>[WindowEventIndex::Iconify];
-		event();
+		WindowEvent event = m_bus<WindowEvent>[Win::EIndex::Iconify];
+		if(!event()) return;
 		glfwIconifyWindow(this); 
 	}
 	
 	void Restore() 
 	{	
-		WindowEvent event = m_bus<WindowEvent>[WindowEventIndex::Restore];
-		event();
+		WindowEvent event = m_bus<WindowEvent>[Win::EIndex::Restore];
+		if(!event()) return;
 		glfwRestoreWindow(this); 
 	}
 	
 	void Maximize() 
 	{
-		WindowEvent event = m_bus<WindowEvent>[WindowEventIndex::Maximize];
-		event();
+		WindowEvent event = m_bus<WindowEvent>[Win::EIndex::Maximize];
+		if(!event()) return;
 		glfwMaximizeWindow(this);
 	}
 	
 	void Show() 
 	{
-		WindowEvent event = m_bus<WindowEvent>[WindowEventIndex::Show];
-		event();
+		WindowEvent event = m_bus<WindowEvent>[Win::EIndex::Show];
+		if(!event()) return;
 		glfwShowWindow(this); 
 	}
 	void Hide() 
 	{
-		WindowEvent event = m_bus<WindowEvent>[WindowEventIndex::Hide];
-		event();
+		WindowEvent event = m_bus<WindowEvent>[Win::EIndex::Hide];
+		if(!event()) return;
 		glfwHideWindow(this); 
 	}
 	
 	void Focus() 
 	{
-		WindowEvent event = m_bus<WindowEvent>[WindowEventIndex::Focus];
-		event();
+		WindowEvent event = m_bus<WindowEvent>[Win::EIndex::Focus];
+		if(!event()) return;
 		glfwFocusWindow(this); 
 	}
 	
@@ -120,11 +122,18 @@ class Window {
 	int GetInputMode(int modeType) { return glfwGetInputMode(this, modeType); }
 	void SetInputMode(int modeType, int value) 
 	{
+		int* mode = new int(modeType);
 		int* val = new int(value);
-		ModeChangeEvent event = m_bus<ModeChangeEvent>[WindowEventIndex::ModeChange];
-		event.m_mode = val;
-		glfwSetInputMode(this, modeType, *val);
-		delete val;
+		ModeChangeEvent event = m_bus<ModeChangeEvent>[Win::EIndex::ModeChange];
+		event.m_values[0] = mode;
+		event.m_values[1] = val;
+		if(!event())
+		{
+			delete mode; delete val;
+			return;
+		}
+		glfwSetInputMode(this, *mode, *val);
+		delete mode; delete val;
 	}
 	
 	int GetKey(Key key) { return glfwGetKey(this, key); }
@@ -148,11 +157,11 @@ class Window {
 	
 	void SwapBuffers() 
 	{
-		ModeChangeEvent event = m_bus<ModeChangeEvent>[WindowEventIndex::SwapBuffers];
-		event();
+		WindowEvent event = m_bus<ModeChangeEvent>[Win::EIndex::SwapBuffers];
+		if(!event()) return;
 		glfwSwapBuffers(this);
 	}
 	
 	GLFWwindow* GetPointer() { return mp_window; }
 };
-}
+}// namespace Imgui

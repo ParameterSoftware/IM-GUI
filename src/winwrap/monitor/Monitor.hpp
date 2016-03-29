@@ -1,13 +1,11 @@
-#ifndef IM_GUI_MONITOR_HPP
-#define IM_GUI_MONITOR_HPP
-
+#pragma once
+#ifndef HID_bYSKOHKCb6ERbLS
+#define HID_bYSKOHKCb6ERbLS
 #include "../util/Vector.hpp"
 #include <GLFW/glfw3.hpp>
 #include <vector>
-
 namespace Imgui
 {
-
 class Monitor
 {
 	GLFWmonitor* mp_monitor;
@@ -35,7 +33,5 @@ public:
 	
 	operator GLFWmonitor*() { return this->GetPointer(); }
 };
-
-}
-
+}// namespace Imgui
 #endif

@@ -1,9 +1,8 @@
-#ifndef IM_GUI_KEY_HPP
-#define IM_GUI_KEY_HPP
-
+#pragma once
+#ifndef HID_kREpnDPLIaSh7R4
+#define HID_kREpnDPLIaSh7R4
 namespace Imgui
 {
-
 class Key
 {
 	const char* m_nameCache;
@@ -19,7 +18,5 @@ public:
 	
 	operator char*() { return this->GetName(); }
 };
-
-}
-
+}// namespace Imgui
 #endif
