@@ -4,14 +4,15 @@
 #include "../monitor/Monitor.hpp"
 #include "../util/Key.hpp"
 #include "../util/Vector.hpp"
+#include "../util/Event.hpp"
 #include <GLFW/glfw3.h>
 
 namespace Imgui
 {
-
 class Window
 {
 	GLFWwindow* mp_window;
+	EventBus<Window, EventFunc::WindowEvent, WindowEventIndex::SIZE> m_bus;
 public:
 	static Window null;
 
@@ -65,11 +66,13 @@ public:
 	
 	void SwapBuffers();
 	
+	template<class Event>
+	void SetEventFunction(EventIndex::Index index) { m_bus[index] = Event(this); }
+	
 	GLFWwindow* GetPointer();
 	
 	operator GLFWwindow*() { return this->GetPointer(); }
 };
-
-}
+}// namespace Imgui
 
 #endif

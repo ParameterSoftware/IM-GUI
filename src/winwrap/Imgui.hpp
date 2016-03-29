@@ -1,6 +1,8 @@
 #ifndef IM_GUI_IMGUI_HPP
 #define IM_GUI_IMGUI_HPP
 
+#include <GLFW/glfw.h>
+
 namespace Imgui
 {
 
