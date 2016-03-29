@@ -1,4 +1,5 @@
 #include "Window.hpp"
+#include "../_expand/window_platform.h"
 namespace Imgui
 {
 using namespace Imgui::Win::Event::WindowEvent;
@@ -34,6 +35,8 @@ class Window {
 		if(!event()) return;
 		glfwSetTitle(this, title); 
 	}
+	
+	const char* GetTitle() { return _eglfwPlatformGetWindowTitle(this); }
 	
 	Vec2I GetPosition()
 	{
