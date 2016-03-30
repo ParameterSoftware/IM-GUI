@@ -123,8 +123,8 @@ class Window {
 	void SetInputMode(int modeType, int value) 
 	{
 		ModeChangeEvent event = m_bus<ModeChangeEvent>[Win::EIndex::ModeChange];
-		event.m_values[0] = &mode;
-		event.m_values[1] = &val;
+		event.m_values[0] = &modeType;
+		event.m_values[1] = &value;
 		if(!event()) return;
 		glfwSetInputMode(this, modeType, value);
 	}
