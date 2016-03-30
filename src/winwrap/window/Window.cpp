@@ -122,18 +122,11 @@ class Window {
 	int GetInputMode(int modeType) { return glfwGetInputMode(this, modeType); }
 	void SetInputMode(int modeType, int value) 
 	{
-		int* mode = new int(modeType);
-		int* val = new int(value);
 		ModeChangeEvent event = m_bus<ModeChangeEvent>[Win::EIndex::ModeChange];
-		event.m_values[0] = mode;
-		event.m_values[1] = val;
-		if(!event())
-		{
-			delete mode; delete val;
-			return;
-		}
-		glfwSetInputMode(this, *mode, *val);
-		delete mode; delete val;
+		event.m_values[0] = &mode;
+		event.m_values[1] = &val;
+		if(!event()) return;
+		glfwSetInputMode(this, modeType, value);
 	}
 	
 	int GetKey(Key key) { return glfwGetKey(this, key); }
