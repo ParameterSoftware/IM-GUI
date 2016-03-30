@@ -14,7 +14,7 @@ class Window {
 		mp_window(glfwCreateWindow(width, height, title, monitor, share) 
 	{
 		WindowEvent event = m_bus<WindowEvent>[Win::EIndex::Start];
-		if(!event()) ~Window();
+		if(!event()) this->~Window();
 	}
 	
 	~Window() 
