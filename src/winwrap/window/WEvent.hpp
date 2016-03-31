@@ -61,9 +61,9 @@ namespace Event
 	/// Standard Window Event
 	struct WindowEvent
 	{
-		Window m_window;
-		WindowEvent(Window window): m_window(window) {}
-		virtual bool operator()() = 0;
+		Window m_instance;
+		WindowEvent(Window window): m_instance(window) {}
+		virtual bool operator()() { return true; }
 	};
 	
 	/// Retitle Window Event

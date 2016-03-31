@@ -21,12 +21,12 @@ public:
 	/// Create a Window from a pre-existing GLFWwindow pointer
 	///
 	////////////////////////////////////////////////////////////////////////////////////////
-	Window(GLFWwindow* window);
+	Window(GLFWwindow* window, WindowEvent startEvent = WindowEvent());
 	////////////////////////////////////////////////////////////////////////////////////////
 	/// Create a Window from a specific parameters for the window
 	///
 	////////////////////////////////////////////////////////////////////////////////////////
-	Window(int width, int height, const char* title, Monitor monitor = Monitor::GetPrimary(), Window share = Window::null);
+	Window(int width, int height, const char* title, Monitor monitor = Monitor::GetPrimary(), Window share = Window::null, WindowEvent startEvent = WindowEvent());
 	////////////////////////////////////////////////////////////////////////////////////////
 	/// Destroys the Window, calls glfwDestroyWindow
 	///
@@ -191,6 +191,7 @@ public:
 	////////////////////////////////////////////////////////////////////////////////////////
 	template<class Event>
 	void SetEventFunction(EventIndex::Index index) { m_bus.RegsterEvent<Event>(this, index); }
+	void SetEventFunction(EventIndex::Index index, WindowEvent event) { m_bus.RegisterEvent(this, index, event); }
 	////////////////////////////////////////////////////////////////////////////////////////
 	/// Retrieves the GLFWwindow pointer of the window
 	///

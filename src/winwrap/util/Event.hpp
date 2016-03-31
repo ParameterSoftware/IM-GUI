@@ -15,6 +15,8 @@ public:
 	
 	template<class RegType = BaseEvent>
 	void RegisterEvent(ForClass forClass, int index) { m_events[index] = RegType(forClass); }
+	template<class RegType = BaseEvent>
+	void RegisterEvent(ForClass forClass, int index, RegType event) { event.m_instance = forClass; m_events[index] = event; }
 	
 	template<class ReturnType>
 	ReturnType GetEvent(int index) { return dynamic_cast<ReturnType>(m_events[index]); }

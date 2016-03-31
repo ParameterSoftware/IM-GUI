@@ -9,12 +9,13 @@ using namespace Imgui::Win::Event::ModeChangeEvent;
 class Window {
 	null = Window(NULL);
 	
-	Window(GLFWwindow* window): mp_window(window) {}
-	Window(int width, int height, const char* title, Monitor monitor, Window share): 
+	Window(GLFWwindow* window, WindowEvent event): mp_window(window) {this->RegisterEvent(Win::EIndex::Start, event);}
+	Window(int width, int height, const char* title, Monitor monitor, Window share, WindowEvent event):
 		mp_window(glfwCreateWindow(width, height, title, monitor, share) 
 	{
-		WindowEvent event = m_bus<WindowEvent>[Win::EIndex::Start];
-		if(!event()) this->~Window();
+		this->RegisterEvent(Win::EIndex::Start, event);
+		WindowEvent e = m_bus<WindowEvent>[Win::EIndex::Start];
+		if(!e()) this->~Window();
 	}
 	
 	~Window() 
